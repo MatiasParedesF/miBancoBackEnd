@@ -1,11 +1,11 @@
 const express       = require('express');
 var api             = express.Router();
-var destinatario    = require('./destinatario');
-var historial       = require('./historial');
-var transferencia  = require('./transferencia');
+var destinatario    = require('../controllers/destinatario.controller');
+var historial       = require('../controllers/historial.controller');
+var transferencia  = require('../controllers/transferencia.controller');
 
-api.route('/destinatarios')
-.post(destinatario.nuevoDestinatario);
+api.route('/destinatario')
+.get(destinatario.buscarDestinatarios);
 
 api.route('/historial')
 .get(historial.obtenerHistorial);
