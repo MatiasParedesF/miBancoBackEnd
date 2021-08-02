@@ -21,5 +21,6 @@ app.use(express.static(path.join(__dirname,'html')));
 app.use(cors());
 app.use('/api', api);
 
+console.log(path.join(__dirname,'html'))
 
 module.exports=app;
