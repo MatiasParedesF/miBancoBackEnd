@@ -17,10 +17,10 @@ mongoClient.connect('mongodb://127.0.0.1:27017/miBanco',{ useNewUrlParser: true 
     }
 })
 
-app.use(express.static(path.join(__dirname,'html')));
+app.use(express.static(path.join(base,'html')));
 app.use(cors());
 app.use('/api', api);
 
-console.log(path.join(__dirname,'html'))
+console.log(path.join(base,'html'))
 
 module.exports=app;
