@@ -15,12 +15,12 @@ mongoClient.connect('mongodb://127.0.0.1:27017/miBanco',{ useNewUrlParser: true 
     }
 })
 app.use(cors());
+app.use('/api', api);
 app.use(function(req,res,next){
     var err=new Error('Archivo no encontrado');
     err.status=404;
     next(err);
 });
-app.use('/api', api);
 app.use(function(err,req,res,next){
     res.status(err.status||500);
     res.send(err.menssage);
