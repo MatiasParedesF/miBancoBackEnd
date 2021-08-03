@@ -1,7 +1,7 @@
 function Transferencia(bd){
     "use strict";
 
-    this.db=bd.bd("miBanco");
+    this.db=bd.db("miBanco");
 
     this.getHistorialTransferencias=function(usuario,callback){
 
