@@ -4,13 +4,12 @@ function Transferencia(bd){
     this.db=bd.db("miBanco");
 
     this.getHistorialTransferencias=function(usuario,callback){
-
-        this.db.collection("transferencias").find({}).toArray((err,transferencias)=>{
+        this.db.collection("transferencias").aggregate([{"$match":{usuario:usuario}},{$lookup:{from:"destinatarios",localField:"destinario",foreignField:"_id",as:"detinatario"}},{$project:{"_id":0,"cuenta":0,destinario:0}}]).toArray((err,historial)=>{
             if(err){
                 callback(err,null);
             }
             else{
-                callback(null,transferencias);
+                callback(null,historial);
             }
         })
     }
