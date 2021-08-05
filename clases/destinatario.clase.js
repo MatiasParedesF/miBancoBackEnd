@@ -3,7 +3,7 @@ function Destinatario(bd){
 
     this.db=bd.db("miBanco");
 
-    this.getDestinatarios=function(termino,callback){    
+    this.buscarDestinatarios=function(termino,callback){    
         var pattern=termino.toString();
 
         this.db.collection("destinatarios").find({"nombre":{"$regex":pattern, "$options":'ix'}}).toArray((err,destinatarios)=>{
@@ -13,6 +13,17 @@ function Destinatario(bd){
             }
             else{
                 callback(null,destinatarios);
+            }
+        })
+    },
+
+    this.crearDestinatario=function(destinatario, callback){
+        this.db.collection("destinatarios").insertOne(destinatario,(err,destinatario)=>{
+            if(err){
+                callback(err,null);
+            }
+            else{
+                callback(null,destinatario);
             }
         })
     }

@@ -8,7 +8,7 @@ var base        = path.dirname(__dirname);
 
 var api     = require('./routes/index');
 
-mongoClient.connect('mongodb://127.0.0.1:27017/miBanco',{ useNewUrlParser: true },function(err,bd){
+mongoClient.connect('mongodb://127.0.0.1:27017/',{ useNewUrlParser: true },function(err,bd){
     if(err){
         console.log(err);
     }
@@ -17,6 +17,7 @@ mongoClient.connect('mongodb://127.0.0.1:27017/miBanco',{ useNewUrlParser: true 
     }
 })
 
+app.use(express.json());
 app.use(express.static(path.join(base,'html')));
 app.use(cors());
 app.use('/api', api);

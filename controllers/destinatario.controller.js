@@ -1,42 +1,52 @@
 
-var Destinatario=require('../clases/destinatario').Destinatario;
+var Destinatario=require('../clases/destinatario.clase').Destinatario;
+var Modelo=require('../modelo/destinatario.modelo').modeloDestinatario;
 
 module.exports={
     nuevoDestinatario:async(req,res,next)=>{
-
+        var destinatario = new Destinatario(req.app.locals.bd);
+        try{
+            var termino      = req.body.destinatario;
+            var modelo       = new Modelo(termino);
+            if(modelo.dv===''|| modelo.run===''||modelo.correo===''){
+                res.status(404).end();
+            }
+            else{
+                destinatario.crearDestinatario(modelo,(err,destinatario)=>{
+                    if(err){
+                        res.status(404).end();
+                    }else{
+                        res.status(202).json(destinatario);
+                    }
+                })
+            }
+        }
+        catch(Error){
+            res.status(404).end()   
+        }
     },
     buscarDestinatarios:async(req,res,next)=>{
-        var destinatario = new Destinatario(req.app.locals.bd);
-        
-        var termino=req.query.termino;
 
-        destinatario.getDestinatarios(termino,(err,destinatarios)=>{
+        try{
+            var destinatario = new Destinatario(req.app.locals.bd);
+            
+            var termino=req.query.termino;
+
+            destinatario.buscarDestinatarios(termino,(err,destinatarios)=>{
             if(err){
                 res.send({error:true,msg:""});
             }
             else{
-                if(destinatarios.length ===0){
-                    res.status(404).end();
-                }
-                else{
-                    res.send(destinatarios)
-                }
+                res.send(destinatarios)
             }
         })
+
+        }
+        catch(Error){
+            res.status(404).end();
+        }
+        
     }
 
 
-}
-
-class destinatario{
-    constructor(body){
-        this._id        = 'ObjectId';
-        this.nombre     = 'string';
-        this.correo     = 'string';
-        this.banco      = [{'nombre':'','id':''}];
-        this.cuenta     = [{tipo:'',numero:''}];
-        this.fecha      = new Date;
-        this.monto      = 0;
-        this.indice     = 0;
-    }
 }
